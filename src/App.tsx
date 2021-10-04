@@ -1,27 +1,32 @@
-import React, { FC } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react';
+import { instance } from 'Utils/Axios';
+import Wrapper from './Styles';
+import { Headers } from 'Containers';
+import { Footers } from 'Pages';
+import { Navigator } from 'Navigations';
+import { configs } from 'Configs';
+import 'antd/dist/antd.css';
 
-type Props = {};
+const App = () => {
+  useEffect(() => {
+    instance.interceptors.response.use(
+      (response) => response,
+      (error) => {
+        if (error.response.status === 401) {
+          // Updating... (handle error)
+          localStorage.removeItem(configs.localStorage);
+          console.warn('response 401');
+        }
+      }
+    );
+  }, []);
 
-const App: FC<Props> = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Wrapper>
+      <Headers />
+      <Navigator />
+      <Footers />
+    </Wrapper>
   );
 };
 

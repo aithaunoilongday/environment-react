@@ -1,4 +1,2 @@
-export interface View {
-  id: number;
-  name: string;
-}
+export * from 'Types/Interface/store';
+export * from 'Types/Interface/user';
